@@ -1,30 +1,43 @@
-import React from "react";
+import { useState } from 'react';
 
-class ImageLoader extends React.Component {
+function ImageLoader() {
+  const [file, setFile] = useState();
 
-    saveImage() {
-        /**
-         * Saves the image to a directory in backend/temp_data
-         */
-        var inputTag = document.getElementById('inputImg');
-        if (inputTag.files.length > 0) {
-            console.log("File selected: " + inputTag.files[0])
-            // TODO : Save file to directory
+  const handleFileChange = (e) => {
+    if (e.target.files) {
+      setFile(e.target.files[0]);
+    }
+  };
 
-        } else {
-            console.log("No files selected")
-        }
+  const handleUploadClick = () => {
+    if (!file) {
+      return;
     }
 
-    render() {
-        return (
-            <div>
-                <label>Select image</label>
-                <input id="inputImg" type='file' accept="image/png, image/jpeg"></input>
-                <button onClick={this.saveImage}>Predict</button>
-            </div>
-        )
-    }
+    // 👇 Uploading the file using the fetch API to the server
+    fetch('https://httpbin.org/post', {
+      method: 'POST',
+      body: file,
+      // 👇 Set headers manually for single file upload
+      headers: {
+        'content-type': file.type,
+        'content-length': `${file.size}`, // 👈 Headers need to be a string
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => console.log(data))
+      .catch((err) => console.error(err));
+  };
+
+  return (
+    <div>
+      <input type="file" onChange={handleFileChange} />
+
+      <div>{file && `${file.name} - ${file.type}`}</div>
+
+      <button onClick={handleUploadClick}>Upload</button>
+    </div>
+  );
 }
 
 export default ImageLoader;

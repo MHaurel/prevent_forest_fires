@@ -6,6 +6,6 @@ app = FastAPI()
 async def root():
     return {"message": "Hello World"}
 
-@app.get("/predict")
+@app.post("/predict")
 async def predict():
     return {"prediction": 'Not implemented'}
