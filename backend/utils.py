@@ -26,6 +26,7 @@ def get_prediction(image_bytes):
             image = transform_image(image_bytes=image_bytes)
             outputs = model(image)
             _, y_hat = torch.max(outputs.data, 1)
+            print(outputs)
             return str(list(y_hat.numpy())[0]) # str for the output to be serializable
     except TypeError as te:
         print(te)

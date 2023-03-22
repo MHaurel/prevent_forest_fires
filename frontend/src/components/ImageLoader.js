@@ -6,20 +6,24 @@ function ImageLoader() {
   const handleFileChange = (e) => {
     
     // console.log("Handling file changing...")
+    if (e.target.files) {
+      try {
+        const formData = new FormData();
+        var file = e.target.files[0];
+        formData.append('file', file);
 
-    const formData = new FormData();
-    var file = e.target.files[0];
-    formData.append('file', file);
-
-    fetch("http://localhost:5000/predict", {
-      method: "POST",
-      body: formData
-    }).then(response => response.json()).then(data => {
-      console.log(data);
-    }).catch(error => {
-      console.error(error)
-    })
-    
+        fetch("http://localhost:5000/predict", {
+          method: "POST",
+          body: formData
+        }).then(response => response.json()).then(data => {
+          console.log(data);
+        }).catch(error => {
+          console.error(error)
+        })
+      } catch {
+        console.error("Could not proceed / File not existing")
+      }
+    }    
   };
 
   const handleUploadClick = () => {
