@@ -1,12 +1,25 @@
 import { useState } from 'react';
 
 function ImageLoader() {
-  const [file, setFile] = useState();
+  const [file] = useState();
 
   const handleFileChange = (e) => {
-    if (e.target.files) {
-      setFile(e.target.files[0]);
-    }
+    
+    // console.log("Handling file changing...")
+
+    const formData = new FormData();
+    var file = e.target.files[0];
+    formData.append('file', file);
+
+    fetch("http://localhost:5000/predict", {
+      method: "POST",
+      body: formData
+    }).then(response => response.json()).then(data => {
+      console.log(data);
+    }).catch(error => {
+      console.error(error)
+    })
+    
   };
 
   const handleUploadClick = () => {
@@ -31,7 +44,7 @@ function ImageLoader() {
 
   return (
     <div>
-      <input type="file" onChange={handleFileChange} />
+      <input id='image-input' type="file" onChange={handleFileChange} />
 
       <div>{file && `${file.name} - ${file.type}`}</div>
 
