@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import './ImageLoader.css';
+import Dropzone from './Dropzone';
 
 function ImageLoader() {
   const [file] = useState();
@@ -17,6 +19,7 @@ function ImageLoader() {
           body: formData
         }).then(response => response.json()).then(data => {
           console.log(data);
+          document.getElementById('prediction').innerText = `prediction: ${data['prediction']}`;
         }).catch(error => {
           console.error(error)
         })
@@ -26,33 +29,17 @@ function ImageLoader() {
     }    
   };
 
-  const handleUploadClick = () => {
-    if (!file) {
-      return;
-    }
-
-    // 👇 Uploading the file using the fetch API to the server
-    fetch('https://httpbin.org/post', {
-      method: 'POST',
-      body: file,
-      // 👇 Set headers manually for single file upload
-      headers: {
-        'content-type': file.type,
-        'content-length': `${file.size}`, // 👈 Headers need to be a string
-      },
-    })
-      .then((res) => res.json())
-      .then((data) => console.log(data))
-      .catch((err) => console.error(err));
-  };
-
   return (
-    <div>
-      <input id='image-input' type="file" onChange={handleFileChange} />
+    <div className='wrapper'>
+      <h1>Prevent Forest Fires</h1>
+      {/* <div className='inputZone'>
+        <input id='image-input' type="file" onChange={handleFileChange} />
+      </div> */}
+      {/* <div>{file && `${file.name} - ${file.type}`}</div> */}
 
-      <div>{file && `${file.name} - ${file.type}`}</div>
+      <p id='prediction'></p>
 
-      <button onClick={handleUploadClick}>Upload</button>
+      <Dropzone/>
     </div>
   );
 }

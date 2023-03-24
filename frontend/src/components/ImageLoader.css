@@ -1,0 +1,27 @@
+/* *, html {
+    background-image: url('../resources/images/forest_background.png');
+} */
+
+.wrapper {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.wrapper h1 {
+    letter-spacing: 0.1em;
+}
+
+/* .wrapper .inputZone {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
+    border: dashed 1px black;
+    width: 35%;
+    height: 35%;
+    border-radius: 1rem;
+} */

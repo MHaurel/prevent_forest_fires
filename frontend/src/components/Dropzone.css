@@ -1,0 +1,6 @@
+.dropzone {
+    border: 1px black dashed;
+    border-radius: 8px;
+    padding: 1rem;
+    cursor: pointer;
+}
