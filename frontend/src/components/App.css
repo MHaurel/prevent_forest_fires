@@ -1,0 +1,20 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;1,100;1,300&display=swap');
+
+*, html {
+    font-family: 'Lato', sans-serif;
+}
+
+.App {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    /* padding: 2rem; */
+    padding: 1rem;
+    /* height: 100vh; */
+}
+
+h1 {
+    letter-spacing: 0.1em;
+}

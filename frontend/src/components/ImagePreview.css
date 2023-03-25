@@ -1,0 +1,14 @@
+.file-list {
+    margin: 1rem;
+}
+
+.file-item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.file-item img {
+    width: 70%;
+}
+

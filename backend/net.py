@@ -9,7 +9,9 @@ class CNN(nn.Module):
         self.conv2 = nn.Conv2d(16, 32, 3, padding=1)
         self.pool = nn.MaxPool2d(2, 2)
         self.fc1 = nn.Linear(32 * 87 * 87, 128)
-        self.fc2 = nn.Linear(128, 2)
+        self.fc2 = nn.Linear(128, 64)
+        self.fc3 = nn.Linear(64, 32)
+        self.fc4 = nn.Linear(32, 2)
         self.relu = nn.ReLU()
 
     def forward(self, x):
@@ -17,7 +19,9 @@ class CNN(nn.Module):
         x = self.pool(self.relu(self.conv2(x)))
         x = x.view(-1, 32 * 87 * 87)
         x = self.relu(self.fc1(x))
-        x = self.fc2(x)
+        x = self.relu(self.fc2(x))
+        x = self.relu(self.fc3(x))
+        x = self.fc4(x)
         return x
 
 class Net(nn.Module):

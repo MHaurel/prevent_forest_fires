@@ -8,7 +8,7 @@ import torchvision.transforms as transforms
 from PIL import Image
 
 model = CNN()
-model.load_state_dict(torch.load('./net-2.pth'))
+model.load_state_dict(torch.load('./model.pth'))
 model.eval()
 
 def transform_image(image_bytes):

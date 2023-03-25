@@ -1,10 +1,12 @@
 import { useCallback, useState } from "react";
 import Dropzone from "./Dropzone";
 import ImagePreview from "./ImagePreview";
+import Info from "./Info";
 import cuid from "cuid";
+import './App.css';
 
 function App() {
-    const [images, setImages] = useState([]);
+    const [images, setImages, prediction] = useState([]);
     const onDropImg = useCallback((acceptedFiles) => {
         acceptedFiles.map((file) => {
             const reader = new FileReader();
@@ -40,7 +42,8 @@ function App() {
                 // document.getElementById('prediction').innerText = `prediction: ${data['prediction']}`;
                 var prediction = data['prediction'];
                 console.log(`prediction: ${prediction}`)
-                return prediction;
+                // return prediction;
+                return 1;
             }).catch(error => {
                 console.error(error)
                 return -1;
@@ -51,10 +54,12 @@ function App() {
     }
 
     return (
+        
         <main className="App">
-            <h1 className="text-center">Drag and Drop Test</h1>
+            <h1 className="text-center">Prevent wildfires</h1>
             <Dropzone onDrop={onDropImg} accept={"image/*"}/>
             <ImagePreview images={images}/>
+            <Info prediction={1}/>
         </main>
     )
 }

@@ -19,20 +19,17 @@ function Dropzone({ onDrop, accept, open }) {
             <div className="text-center">
                 {isDragActive ? (
                     <p className="dropzone-content">
-                        Release to drop the files here
+                        Release to drop the file here
                     </p>
                 ) : (
                     <p className="dropzone-content">
-                        Drag’n’drop some files here, or click to select files
+                        Drag’n’drop a file here, or click to select a file
                     </p>
                 )}
-                {/* <button type="button" onClick={open} className="btn">
-                    Click to select files
-                </button> */}
             </div>
-            <aside>
+            {/* <aside>
                 <ul>{files}</ul>
-            </aside>
+            </aside> */}
         </div>
     );
 }
