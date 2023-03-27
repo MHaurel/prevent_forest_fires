@@ -6,7 +6,7 @@ import cuid from "cuid";
 import './App.css';
 
 function App() {
-    const [images, setImages, prediction] = useState([]);
+    const [images, setImages] = useState([]);
     const onDropImg = useCallback((acceptedFiles) => {
         acceptedFiles.map((file) => {
             const reader = new FileReader();
@@ -20,30 +20,25 @@ function App() {
 
             reader.readAsDataURL(file);
             
-            // Make it an asynchronous method
             var prediction = getPrediction(file);
-            console.log(`prediction: ${prediction}`)
+            document.getElementById("predictionText").innerText = setPredictionInfo(prediction);
 
             return file;
         })
     }, []);
 
-    const getPrediction = (image_file) => {
-        console.log('getting a prediction')
+    const getPrediction = async (image_file) => {
         try {
             const formData = new FormData();
             formData.append('file', image_file);
 
-            fetch("http://localhost:5000/predict", {
+            await fetch("http://localhost:5000/predict", {
                 method: "POST",
                 body: formData
             }).then(response => response.json()).then(data => {
-                // console.log(data);
-                // document.getElementById('prediction').innerText = `prediction: ${data['prediction']}`;
                 var prediction = data['prediction'];
                 console.log(`prediction: ${prediction}`)
-                // return prediction;
-                return 1;
+                return prediction;
             }).catch(error => {
                 console.error(error)
                 return -1;
@@ -53,13 +48,26 @@ function App() {
         }
     }
 
+    const setPredictionInfo = (prediction) => {
+        console.log("prediction: " + prediction);
+        var predictionText = "Drop an image to get a prediction."
+        predictionText = prediction === 1 
+            ? "The model has predicted that a wildfire is highly probable in this area."
+            : "The model has not predicted wildfire in this area."
+        return predictionText;    
+    }
+
     return (
         
         <main className="App">
             <h1 className="text-center">Prevent wildfires</h1>
             <Dropzone onDrop={onDropImg} accept={"image/*"}/>
             <ImagePreview images={images}/>
-            <Info prediction={1}/>
+            {/* <Info setInfoText={setPredictionInfo}/> */}
+            <div className="info">
+                <h3>Info:</h3>
+                <p id="predictionText">Drop an image to get a prediction.</p>
+            </div>
         </main>
     )
 }
