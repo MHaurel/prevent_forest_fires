@@ -8,6 +8,7 @@ import './App.css';
 function App() {
     const [images, setImages] = useState([]);
     const onDropImg = useCallback((acceptedFiles) => {
+        console.log(acceptedFiles)
         acceptedFiles.map((file) => {
             const reader = new FileReader();
 
@@ -62,7 +63,7 @@ function App() {
         <main className="App">
             <h1 className="text-center">Prevent wildfires</h1>
             <Dropzone onDrop={onDropImg} accept={"image/*"}/>
-            <ImagePreview images={images}/>
+            <ImagePreview images={images.slice(-1)}/>
             {/* <Info setInfoText={setPredictionInfo}/> */}
             <div className="info">
                 <h3>Info:</h3>
