@@ -7,8 +7,10 @@ import './App.css';
 
 function App() {
     const [images, setImages] = useState([]);
+    const [predictionText, setPredictionText] = useState(
+        "Drop an image to get a prediction"
+    );
     const onDropImg = useCallback((acceptedFiles) => {
-        console.log(acceptedFiles)
         acceptedFiles.map((file) => {
             const reader = new FileReader();
 
@@ -21,9 +23,8 @@ function App() {
 
             reader.readAsDataURL(file);
             
-            var prediction = getPrediction(file);
-            document.getElementById("predictionText").innerText = setPredictionInfo(prediction);
-
+            let prediction = getPrediction(file);
+            
             return file;
         })
     }, []);
@@ -38,7 +39,9 @@ function App() {
                 body: formData
             }).then(response => response.json()).then(data => {
                 var prediction = data['prediction'];
-                console.log(`prediction: ${prediction}`)
+                prediction === "1" 
+                    ? setPredictionText("The model has predicted that a wildfire is highly probable in this area.")
+                    : setPredictionText("The model has not predicted wildfire in this area.")
                 return prediction;
             }).catch(error => {
                 console.error(error)
@@ -47,16 +50,7 @@ function App() {
         } catch {
             console.error("Could not proceed / File not existing")
         }
-    }
-
-    const setPredictionInfo = (prediction) => {
-        console.log("prediction: " + prediction);
-        var predictionText = "Drop an image to get a prediction."
-        predictionText = prediction === 1 
-            ? "The model has predicted that a wildfire is highly probable in this area."
-            : "The model has not predicted wildfire in this area."
-        return predictionText;    
-    }
+    } 
 
     return (
         
@@ -64,11 +58,7 @@ function App() {
             <h1 className="text-center">Prevent wildfires</h1>
             <Dropzone onDrop={onDropImg} accept={"image/*"}/>
             <ImagePreview images={images.slice(-1)}/>
-            {/* <Info setInfoText={setPredictionInfo}/> */}
-            <div className="info">
-                <h3>Info:</h3>
-                <p id="predictionText">Drop an image to get a prediction.</p>
-            </div>
+            <Info infoText={predictionText}/>
         </main>
     )
 }
