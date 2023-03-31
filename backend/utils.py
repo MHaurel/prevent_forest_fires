@@ -2,14 +2,14 @@ import io
 
 from net import Net, CNN
 
+import numpy as np
+
 import torch
-from torchvision.io import read_image
+from torchvision.io import read_image, decode_image
 import torchvision.transforms as transforms
 from PIL import Image
 
-model = CNN()
-model.load_state_dict(torch.load('./model.pth'))
-model.eval()
+import matplotlib.pyplot as plt
 
 def transform_image(image_bytes):
     transform = transforms.Compose([
@@ -18,15 +18,17 @@ def transform_image(image_bytes):
         transforms.Resize((350, 350))
     ])
     image = Image.open(io.BytesIO(image_bytes))
+    image = np.array(image)
+    image = Image.fromarray(image)
+    image = np.array(image)
     return transform(image)
 
-def get_prediction(image_bytes):
+def get_prediction(model, image_bytes):
     try:
         with torch.no_grad():
             image = transform_image(image_bytes=image_bytes)
             outputs = model(image)
             _, y_hat = torch.max(outputs.data, 1)
-            print(outputs)
             return str(list(y_hat.numpy())[0]) # str for the output to be serializable
     except TypeError as te:
         print(te)
