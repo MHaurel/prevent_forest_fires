@@ -1,17 +1,18 @@
 import io
 
-from net import Net, CNN
-
 import numpy as np
 
 import torch
-from torchvision.io import read_image, decode_image
 import torchvision.transforms as transforms
 from PIL import Image
 
-import matplotlib.pyplot as plt
-
 def transform_image(image_bytes):
+    """
+    Transforms the image bytes into an processable image for the model
+
+    image_bytes : The bytes of the image posted
+    return : The image as a matrix 
+    """
     transform = transforms.Compose([
         transforms.ToTensor(),
         transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
