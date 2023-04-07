@@ -13,17 +13,12 @@ model = CNN()
 model.load_state_dict(torch.load('./model.pth'))
 model.eval()
 
-@app.route('/')
-def root():
-    return {"message": "hello world"}
-
 @app.route('/predict', methods=['POST'])
 def predict():
     if request.method == 'POST':
         file = request.files['file']
         img_bytes = file.read()
         prediction = get_prediction(model=model, image_bytes=img_bytes)
-        print(prediction)
         return jsonify({'prediction': prediction})
     
 if __name__ == "__main__":

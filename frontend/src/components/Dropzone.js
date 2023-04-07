@@ -6,12 +6,6 @@ function Dropzone({ onDrop, accept, open }) {
     const { getRootProps, getInputProps, isDragActive, acceptedFiles } = useDropzone({
         accept, onDrop
     });
-
-    const files = acceptedFiles.map((file) => (
-        <li key={file.path}>
-            {file.path} - {file.size} bytes
-        </li>
-    ));
     
     return (
         <div {...getRootProps({ className: "dropzone" })}>
@@ -27,9 +21,6 @@ function Dropzone({ onDrop, accept, open }) {
                     </p>
                 )}
             </div>
-            {/* <aside>
-                <ul>{files}</ul>
-            </aside> */}
         </div>
     );
 }
